@@ -63,13 +63,19 @@ Styling: Inline CSS (minimal & intentional)
 Storage: sessionStorage (per-tab user identity)
 
 🚀 How to Run Locally
+
 1️⃣ Clone the repository
-git clone https://github.com/<your-username>/live-cursor-tracker.git
+
+git clone https://github.com/Aryanraj404/live-cursor-tracker.git
+
 cd live-cursor-tracker
 
 2️⃣ Start the backend
+
 cd server
+
 npm install
+
 node index.js
 
 
@@ -78,8 +84,11 @@ Server runs on:
 http://localhost:3000
 
 3️⃣ Start the frontend
+
 cd client
+
 npm install
+
 npm run dev
 
 
