@@ -64,6 +64,8 @@ Storage: sessionStorage (per-tab user identity)
 
 🚀 How to Run Locally
 
+Open two ternimals for backened and frontend
+
 1️⃣ Clone the repository
 
 git clone https://github.com/Aryanraj404/live-cursor-tracker.git
@@ -98,7 +100,7 @@ http://localhost:5173
 
 🧪 How to Test
 
-Open multiple browser tabs
+Open multiple browser tabs (prefreble on Firefox or Microsoft Edge, as chrome sometimes doesn't ask for username or room id )
 
 Each tab will ask for:
 
