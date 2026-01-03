@@ -18,7 +18,7 @@ Bonus (Optional)
 Add objects that users can pick and drop collaboratively
 
 ✨ Features Implemented
-✅ Core Requirements
+
 
 Real-time multi-user cursor tracking
 
