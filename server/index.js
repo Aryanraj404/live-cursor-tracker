@@ -12,8 +12,8 @@ const io = new Server(server, {
 
 app.use(cors());
 
-// ---- In-memory state ----
-const users = {}; // socket.id -> { username, roomId }
+
+const users = {};
 
 const objects = [
   { id: "obj1", x: 200, y: 200, heldBy: null },
@@ -23,16 +23,15 @@ const objects = [
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
 
-  // ---- Join room ----
+  
   socket.on("join", ({ username, roomId }) => {
     users[socket.id] = { username, roomId };
     socket.join(roomId);
 
-    // send existing objects to new user
     socket.emit("init-objects", objects);
   });
 
-  // ---- Cursor movement ----
+  
   socket.on("cursor-move", ({ x, y }) => {
     const user = users[socket.id];
     if (!user) return;
@@ -45,7 +44,7 @@ io.on("connection", (socket) => {
     });
   });
 
-  // ---- Pick object ----
+  
   socket.on("pick-object", (objectId) => {
     const obj = objects.find((o) => o.id === objectId);
     if (obj && obj.heldBy === null) {
@@ -54,7 +53,7 @@ io.on("connection", (socket) => {
     }
   });
 
-  // ---- Move object ----
+  
   socket.on("move-object", ({ id, x, y }) => {
     const obj = objects.find((o) => o.id === id);
     if (obj && obj.heldBy === socket.id) {
@@ -64,7 +63,7 @@ io.on("connection", (socket) => {
     }
   });
 
-  // ---- Drop object ----
+
   socket.on("drop-object", (objectId) => {
     const obj = objects.find((o) => o.id === objectId);
     if (obj && obj.heldBy === socket.id) {
@@ -73,7 +72,7 @@ io.on("connection", (socket) => {
     }
   });
 
-  // ---- Disconnect ----
+ 
   socket.on("disconnect", () => {
     const user = users[socket.id];
     if (user) {
@@ -81,7 +80,7 @@ io.on("connection", (socket) => {
       delete users[socket.id];
     }
 
-    // release any held objects
+    
     objects.forEach((obj) => {
       if (obj.heldBy === socket.id) {
         obj.heldBy = null;

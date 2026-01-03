@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import socket from "./socket";
 
-/* ---------- Color generator ---------- */
+
 const getColorFromId = (id) => {
   let hash = 0;
   for (let i = 0; i < id.length; i++) {
@@ -12,9 +12,7 @@ const getColorFromId = (id) => {
 };
 
 function App() {
-  /* ==============================
-     User identity (TAB-SCOPED)
-     ============================== */
+
   const usernameRef = useRef(null);
   const roomRef = useRef(null);
 
@@ -39,18 +37,14 @@ function App() {
   const username = usernameRef.current;
   const roomId = roomRef.current;
 
-  /* ==============================
-     State
-     ============================== */
+
   const [cursors, setCursors] = useState({});
   const [objects, setObjects] = useState([]);
   const [draggingId, setDraggingId] = useState(null);
 
-  /* ==============================
-     Socket + Mouse + Objects
-     ============================== */
+
   useEffect(() => {
-    // 🔥 JOIN ROOM IMMEDIATELY (do NOT wait for "connect")
+    
     socket.emit("join", { username, roomId });
 
     let lastSent = 0;
@@ -59,13 +53,13 @@ function App() {
       const now = Date.now();
 
       if (now - lastSent > 50) {
-        // cursor update
+ 
         socket.emit("cursor-move", {
           x: e.clientX,
           y: e.clientY,
         });
 
-        // object dragging
+       
         if (draggingId) {
           socket.emit("move-object", {
             id: draggingId,
@@ -88,7 +82,7 @@ function App() {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
 
-    // -------- Cursor updates (ROOM-SCOPED from server) --------
+
     socket.on("cursor-update", ({ id, x, y, username }) => {
       setCursors((prev) => {
         const prevCursor = prev[id] || {
@@ -119,7 +113,6 @@ function App() {
       });
     });
 
-    // -------- Objects (ROOM-SCOPED from server) --------
     socket.on("init-objects", (serverObjects) => {
       setObjects(serverObjects);
     });
@@ -140,9 +133,7 @@ function App() {
     };
   }, [username, roomId, draggingId]);
 
-  /* ==============================
-     Linear Interpolation
-     ============================== */
+
   useEffect(() => {
     const animate = () => {
       setCursors((prev) => {
@@ -167,17 +158,12 @@ function App() {
     animate();
   }, []);
 
-  /* ==============================
-     Pick object
-     ============================== */
+
   const handlePickObject = (id) => {
     socket.emit("pick-object", id);
     setDraggingId(id);
   };
 
-  /* ==============================
-     Render
-     ============================== */
   return (
     <div
       style={{
